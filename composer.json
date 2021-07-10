@@ -1,0 +1,26 @@
+{
+    "name": "celestriode/constructure-json",
+    "description": "Constructure implementation for JSON structures.",
+    "authors": [
+        {
+            "name": "Celestriode",
+            "homepage": "https://github.com/celestriode"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "Celestriode\\JsonConstructure\\": "src/"
+        }
+    },
+    "require": {
+        "php": "^7.3",
+        "celestriode/constructure": "^0.4.0",
+        "ramsey/uuid": "^3.8",
+        "seld/jsonlint": "^1.8",
+        "ext-json": "*"
+    },
+    "license": "MIT",
+    "require-dev": {
+        "phpunit/phpunit": "^8.2"
+    }
+}
