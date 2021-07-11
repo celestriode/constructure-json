@@ -1,6 +1,5 @@
 <?php namespace Celestriode\JsonConstructure\Utils;
 
-use Celestriode\JsonConstructure\Exceptions\InvalidUUID;
 use Celestriode\JsonConstructure\Structures\AbstractJsonStructure;
 use Celestriode\JsonConstructure\Structures\Types\JsonArray;
 use Celestriode\JsonConstructure\Structures\Types\JsonBoolean;
@@ -9,6 +8,7 @@ use Celestriode\JsonConstructure\Structures\Types\JsonInteger;
 use Celestriode\JsonConstructure\Structures\Types\JsonMixed;
 use Celestriode\JsonConstructure\Structures\Types\JsonNull;
 use Celestriode\JsonConstructure\Structures\Types\JsonObject;
+use Celestriode\JsonConstructure\Structures\Types\JsonRedirect;
 use Celestriode\JsonConstructure\Structures\Types\JsonString;
 use Ramsey\Uuid\UuidInterface;
 use stdClass;
@@ -162,10 +162,9 @@ class Json
      *
      * @param UuidInterface $uuid The UUID of the structure to redirect to.
      * @return JsonBoolean
-     * @throws InvalidUUID
      */
     public static function redirect(UuidInterface $uuid): AbstractJsonStructure
     {
-        return AbstractJsonStructure::getFromUUID($uuid);
+        return new JsonRedirect($uuid);
     }
 }
