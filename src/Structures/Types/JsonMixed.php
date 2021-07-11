@@ -54,11 +54,11 @@ class JsonMixed extends AbstractJsonStructure
         if ($input !== null &&
             (
                 !is_bool($input)
-                || !is_int($input)
-                || !is_float($input)
-                || !is_string($input)
-                || !is_array($input)
-                || !($input instanceof \stdClass))
+                && !is_int($input)
+                && !is_float($input)
+                && !is_string($input)
+                && !is_array($input)
+                && !($input instanceof \stdClass))
         ) {
 
             throw new JsonTypeError("Input must be one of: bool, int, float, string, array, object.");
