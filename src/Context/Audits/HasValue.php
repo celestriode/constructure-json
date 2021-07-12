@@ -40,7 +40,7 @@ class HasValue extends AbstractPrimitiveAudit
 
         // If the value existed in the list of accepted values, return true.
         
-        if (in_array($value, $this->getValues())) {
+        if ($this->valueMatches($value, $this->getValues())) {
 
             return true;
         }
@@ -50,6 +50,18 @@ class HasValue extends AbstractPrimitiveAudit
         $constructure->getEventHandler()->trigger(self::INVALID_VALUE, $this, $input, $expected);
 
         return false;
+    }
+
+    /**
+     * Returns whether or not the input value is within the array of values.
+     *
+     * @param mixed $value The value to validate.
+     * @param array $values The list of values that the input should belong to.
+     * @return bool
+     */
+    protected function valueMatches($value, array $values): bool
+    {
+        return in_array($value, $values);
     }
 
     /**
