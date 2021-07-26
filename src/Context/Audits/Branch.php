@@ -82,13 +82,14 @@ class Branch extends AbstractJsonAudit
 
         $constructure->getEventHandler()->trigger(self::PASSED, $this, $input, $expected);
 
-        $test = $this->getBranch()->compare($constructure, $input);
+        $branch = $this->getBranch();
+        $test = $branch->compare($constructure, $input);
 
-        // If the structures are objects, then add the branch's keys to the expected structure.
+        // If the structures are objects, then add the branch's keys to the input structure.
 
-        if ($this->getBranch() instanceof JsonObject && $expected instanceof JsonObject) {
+        if ($branch instanceof JsonObject && $input instanceof JsonObject) {
 
-            $expected->addExpectedKeys(...($this->getBranch()->getKeys()));
+            $input->addExpectedKeys(...($branch->getKeys()));
         }
 
         // Return whether or not the branch comparison succeeds.

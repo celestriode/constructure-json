@@ -339,7 +339,7 @@ class JsonObject extends AbstractJsonParent
             
             // If strict, check for keys that exist in the input that are not expected.
 
-            $unexpectedKeys = array_diff($other->getKeys(), $this->getKeys(), $this->getExpectedKeys());
+            $unexpectedKeys = array_diff($other->getKeys(), $this->getKeys(), $other->getExpectedKeys());
 
             if (!empty($unexpectedKeys)) {
 
