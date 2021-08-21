@@ -49,7 +49,7 @@ class SiblingHasValue extends HasValue
 
         if ($inputParent === null) {
 
-            $constructure->getEventHandler()->trigger(self::NO_PARENT, $constructure, $input, $expected);
+            $constructure->getEventHandler()->trigger(self::NO_PARENT, $this, $input, $expected);
 
             return false;
         }
@@ -60,7 +60,7 @@ class SiblingHasValue extends HasValue
 
         if ($sibling === null) {
 
-            $constructure->getEventHandler()->trigger(self::NO_SIBLING, $constructure, $input, $expected);
+            $constructure->getEventHandler()->trigger(self::NO_SIBLING, $this, $input, $expected);
 
             return false;
         }
