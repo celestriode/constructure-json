@@ -127,4 +127,12 @@ class ExclusiveFields extends AbstractObjectAudit
     {
         return "exclusive_fields";
     }
+
+    /**
+     * @inheritDoc
+     */
+    public function toString(): string
+    {
+        return self::getName() . '{required=' . ($this->isRequired() ? 'true' : 'false') . ',keys=[' . implode(',', $this->getExclusiveKeys()) . ']}';
+    }
 }

@@ -99,4 +99,12 @@ class ChildHasValue extends AbstractObjectAudit
     {
         return "child_has_value";
     }
+
+    /**
+     * @inheritDoc
+     */
+    public function toString(): string
+    {
+        return self::getName() . '{child=' . ($this->getKey() ? 'true' : 'false') . ',keys=[' . implode(',', $this->getValues()) . ']}';
+    }
 }

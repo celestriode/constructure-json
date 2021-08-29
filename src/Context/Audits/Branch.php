@@ -136,4 +136,17 @@ class Branch extends AbstractJsonAudit
     {
         return "branch";
     }
+
+    /**
+     * @inheritDoc
+     */
+    public function toString(): string
+    {
+        $predicateStrings = array_map(function (AuditInterface $predicate) {
+
+            return $predicate->toString();
+        }, $this->getPredicates());
+
+        return self::getName() . '{name=' . $this->getBranchName() . ',predicates=[' . implode(',', $predicateStrings) . ']}';
+    }
 }

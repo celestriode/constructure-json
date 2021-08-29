@@ -89,4 +89,12 @@ class SiblingHasValue extends HasValue
     {
         return "sibling_has_value";
     }
+
+    /**
+     * @inheritDoc
+     */
+    public function toString(): string
+    {
+        return self::getName() . '{sibling=' . $this->getKey() . ',values=[' . implode(',', $this->getValues()) . ']}';
+    }
 }

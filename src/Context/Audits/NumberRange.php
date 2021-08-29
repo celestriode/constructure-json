@@ -121,4 +121,12 @@ class NumberRange extends AbstractPrimitiveAudit
     {
         return "number_range";
     }
+
+    /**
+     * @inheritDoc
+     */
+    public function toString(): string
+    {
+        return self::getName() . '{min=' . ($this->getMin() ?? 'null') . ',max=' . ($this->getMax() ?? 'null') . ',exclusive=' . ($this->isExclusive() ? 'true' : 'false') . '}';
+    }
 }

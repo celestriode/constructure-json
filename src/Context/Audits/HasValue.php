@@ -83,4 +83,12 @@ class HasValue extends AbstractPrimitiveAudit
     {
         return "has_value";
     }
+
+    /**
+     * @inheritDoc
+     */
+    public function toString(): string
+    {
+        return self::getName() . '{values=[' . implode(',', $this->getValues()) . ']}';
+    }
 }

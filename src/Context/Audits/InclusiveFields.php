@@ -84,4 +84,12 @@ class InclusiveFields extends AbstractObjectAudit
     {
         return "inclusive_fields";
     }
+
+    /**
+     * @inheritDoc
+     */
+    public function toString(): string
+    {
+        return self::getName() . '{keys=[' . implode(',', $this->getKeys()) . ']}';
+    }
 }
