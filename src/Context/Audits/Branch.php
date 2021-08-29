@@ -54,47 +54,30 @@ class Branch extends AbstractJsonAudit
      */
     protected function auditJson(AbstractConstructure $constructure, AbstractJsonStructure $input, AbstractJsonStructure $expected): bool
     {
-        // Silence the event handler when checking the predicates.
-
-        $constructure->getEventHandler()->mute();
-
-        // Cycle through all predicates.
-
-        foreach ($this->getPredicates() as $predicate) {
-
-            // If a predicate doesn't pass, then do not branch.
-
-            if (!$predicate->audit($constructure, $input, $expected)) {
-
-                // Unmute the event handler.
-
-                $constructure->getEventHandler()->unmute();
-
-                // Return true instead of false as branching is meant to be optional.
-
-                return true;
-            }
-        }
-
-        // All predicates passed, unmute event handler and begin branching.
-
-        $constructure->getEventHandler()->unmute();
-
         $constructure->getEventHandler()->trigger(self::PASSED, $this, $input, $expected);
 
-        // If the structures are objects, then add the branch's keys and the expected's keys to the input structure.
+        // If the structures are objects, then add the directly add the children of the branch to the structure.
 
         $branch = $this->getBranch();
 
-        if ($branch instanceof JsonObject && $input instanceof JsonObject && $expected instanceof JsonObject) {
+        if ($expected instanceof JsonObject && $branch instanceof JsonObject) {
 
-            $input->addExpectedKeys(...($branch->getKeys()));
-            $input->addExpectedKeys(...($expected->getKeys()));
+            // Cycle through each child and add it to the expected structure.
+
+            foreach ($branch->getChildren() as $key => $child) {
+
+                $expected->addChild($key, $child);
+            }
+
+            // Branch passed, return true. The expected object will handle the rest.
+
+            return true;
+        } else {
+
+            // Otherwise, do a simple comparison.
+
+            return $branch->compare($constructure, $input);
         }
-
-        // Return whether or not the branch comparison succeeds.
-
-        return $branch->compare($constructure, $input);
     }
 
     /**
