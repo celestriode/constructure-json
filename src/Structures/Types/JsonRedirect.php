@@ -57,7 +57,11 @@ class JsonRedirect extends AbstractJsonStructure
      */
     public function compare(AbstractConstructure $constructure, StructureInterface $other): bool
     {
-        return self::getFromUUID($this->getTarget())->compare($constructure, $other);
+        $parent = parent::compare($constructure, $other);
+
+        $redirect = self::getFromUUID($this->getTarget())->compare($constructure, $other);
+
+        return $parent && $redirect;
     }
 
     /**
