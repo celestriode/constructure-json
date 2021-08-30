@@ -66,6 +66,14 @@ class JsonRedirect extends AbstractJsonStructure
 
     /**
      * @inheritDoc
+     */
+    protected function useGlobalAudits(): bool
+    {
+        return false;
+    }
+
+    /**
+     * @inheritDoc
      * @throws InvalidUUID
      */
     public function getTypeName(): string
