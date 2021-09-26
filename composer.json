@@ -13,7 +13,7 @@
         }
     },
     "require": {
-        "php": "^7.3",
+        "php": "^7.3|^8.0",
         "celestriode/constructure": "^0.6.0",
         "ramsey/uuid": "^4.1",
         "seld/jsonlint": "^1.8",
