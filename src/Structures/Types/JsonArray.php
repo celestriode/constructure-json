@@ -15,6 +15,8 @@ use Celestriode\JsonConstructure\Structures\AbstractJsonStructure;
 class JsonArray extends AbstractJsonParent
 {
     const INVALID_INPUT = '91e44512-db46-4201-ae2c-43cba6c7cd39';
+    const ELEMENT_COMPARISON_FAILED = '02841302-1b10-4283-a97f-aea4ca0b9496';
+    const ARRAY_COMPARISON_FAILED = '30bd4682-1121-485c-b5ba-39717a196efe';
 
     /**
      * Returns a friendlier name of the data structure, which can be used with errors shown
@@ -145,8 +147,7 @@ class JsonArray extends AbstractJsonParent
                     
                     else {
 
-                        // TODO: event.
-                        var_dump("ARRAY: comparable elements failed to compare. " . $element->getValue());
+                        $constructure->getEventHandler()->trigger(self::ELEMENT_COMPARISON_FAILED, $expectedElement, $element, $this, $other);
 
                         $failedCount++;
                     }
@@ -157,8 +158,7 @@ class JsonArray extends AbstractJsonParent
 
             if (!$matched) {
 
-                // TODO: event.
-                //$constructure->getEventHandler()->trigger(self::)
+                $constructure->getEventHandler()->trigger(self::ARRAY_COMPARISON_FAILED, $this, $other);
 
                 $failedCount++;
             }
