@@ -30,6 +30,11 @@ abstract class AbstractJsonStructure extends AbstractStructure
     protected $key;
 
     /**
+     * @var int The index within the array, provided that the parent is an array. -1 means not applicable.
+     */
+    protected $index = -1;
+
+    /**
      * Whether or not this JSON structure is allowed to be null. This differs from JsonNull in
      * that the expected type is a string but it can be null. JsonNull is generally only used
      * with inputs that are null, since it would not be possible to know what type the user
@@ -93,7 +98,7 @@ abstract class AbstractJsonStructure extends AbstractStructure
     public function setParent(AbstractJsonParent $parent, string $key = null): void
     {
         $this->parent = $parent;
-        $this->key = $key;
+        $this->setKey($key);
     }
 
     /**
@@ -104,6 +109,36 @@ abstract class AbstractJsonStructure extends AbstractStructure
     public function getParent(): ?AbstractJsonParent
     {
         return $this->parent;
+    }
+
+    /**
+     * Sets the element's index within the parent array, assuming the parent is an array.
+     *
+     * @param int $index
+     */
+    public function setIndex(int $index): void
+    {
+        $this->index = $index;
+    }
+
+    /**
+     * Returns the index that this element appears within the parent array, if the parent is an array.
+     *
+     * @return int
+     */
+    public function getIndex(): int
+    {
+        return $this->index;
+    }
+
+    /**
+     * Sets the key for the structure. Primarily used when the parent is an object.
+     *
+     * @param string|null $key
+     */
+    public function setKey(?string $key): void
+    {
+        $this->key = $key;
     }
 
     /**
@@ -181,6 +216,36 @@ abstract class AbstractJsonStructure extends AbstractStructure
         // Otherwise do a pure json_encode on the value.
 
         return json_encode($this->getValue());
+    }
+
+    /**
+     * Generates a simple JSON path to this element based on its parents.
+     *
+     * @return string
+     */
+    public function toPath(): string
+    {
+        $str = '';
+
+        if ($this->getKey() !== null) {
+
+            if ($this->getParent() !== null && $this->getParent()->getParent() !== null) {
+
+                $str = '.' . $this->getKey();
+            } else {
+
+                $str = $this->getKey();
+            }
+        } else if ($this->getIndex() !== -1) {
+            $str = '[' . $this->getIndex() . ']' . $str;
+        }
+
+        if ($this->getParent() !== null) {
+
+            $str = $this->getParent()->toPath() . $str;
+        }
+
+        return $str;
     }
 
     /**

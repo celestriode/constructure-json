@@ -36,9 +36,11 @@ abstract class AbstractJsonParent extends AbstractJsonStructure
         if ($key === null) {
 
             $this->children[] = $child;
+            $child->setIndex(count($this->getChildren()) - 1);
         } else {
 
             $this->children[$key] = $child;
+            // TODO: look into calling setKey() here and removing it from setParent().
         }
 
         return $this;
