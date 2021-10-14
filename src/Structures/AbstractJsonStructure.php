@@ -223,29 +223,23 @@ abstract class AbstractJsonStructure extends AbstractStructure
      *
      * @return string
      */
-    public function toPath(): string
+    public function toPath(int $depth = 0): string
     {
         $str = '';
 
         if ($this->getKey() !== null) {
 
-            if ($this->getParent() !== null && $this->getParent()->getParent() !== null) {
-
-                $str = '.' . $this->getKey();
-            } else {
-
-                $str = $this->getKey();
-            }
+            $str = '.' . $this->getKey();
         } else if ($this->getIndex() !== -1) {
             $str = '[' . $this->getIndex() . ']' . $str;
         }
 
         if ($this->getParent() !== null) {
 
-            $str = $this->getParent()->toPath() . $str;
+            $str = $this->getParent()->toPath($depth + 1) . $str;
         }
 
-        return $str;
+        return (($depth == 0) ? '$' : '') . $str;
     }
 
     /**
