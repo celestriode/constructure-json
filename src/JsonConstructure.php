@@ -1,6 +1,7 @@
 <?php namespace Celestriode\JsonConstructure;
 
 use Celestriode\Constructure\AbstractConstructure;
+use Celestriode\Constructure\Exceptions\ConversionFailureException;
 use Celestriode\Constructure\Structures\StructureInterface;
 use Celestriode\JsonConstructure\Exceptions\ConversionFailure;
 use Celestriode\JsonConstructure\Structures\AbstractJsonStructure;
@@ -22,19 +23,28 @@ class JsonConstructure extends AbstractConstructure
      *
      * @param string $input The input to transform. With JSON, this must be a well-formed JSON string.
      * @return StructureInterface
-     * @throws ParsingException|ConversionFailure
+     * @throws ConversionFailureException
      */
     public function toStructure($input): StructureInterface
     {
         if (!is_string($input)) {
 
-            throw new ConversionFailure("Raw input must be a string.");
+            throw new ConversionFailureException("Raw input must be a string.");
         }
 
-        $parser = new JsonParser();
-        $json = $parser->parse($input, JsonParser::DETECT_KEY_CONFLICTS);
+        try {
 
-        return $this->transformData($json);
+            $parser = new JsonParser();
+            $json = $parser->parse($input, JsonParser::DETECT_KEY_CONFLICTS);
+
+            return $this->transformData($json);
+        } catch (ParsingException $e) {
+
+            throw new ConversionFailureException('Parsing failed: ' . $e->getMessage());
+        } catch (ConversionFailure $e) {
+
+            throw new ConversionFailureException('Conversion failed: ' . $e->getMessage());
+        }
     }
 
     /**
