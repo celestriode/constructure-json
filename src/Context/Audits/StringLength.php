@@ -36,7 +36,7 @@ class StringLength extends NumberRange
 
         // String length out of range, audit failed.
         
-        $constructure->getEventHandler()->trigger(self::OUT_OF_RANGE, $this, $input, $expected);
+        $constructure->getEventHandler()->trigger(self::OUT_OF_RANGE, $length, $this, $input, $expected);
 
         return false;
     }

@@ -57,7 +57,7 @@ class NumberRange extends AbstractPrimitiveAudit
             return true;
         }
 
-        $constructure->getEventHandler()->trigger(self::OUT_OF_RANGE, $this, $input, $expected);
+        $constructure->getEventHandler()->trigger(self::OUT_OF_RANGE, $value, $this, $input, $expected);
 
         return false;
     }
